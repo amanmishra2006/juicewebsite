@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Juices Menu</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .juice-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .juice-card {
+            background: white;
+            width: 200px;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .juice-card h3 {
+            margin: 10px 0;
+        }
+        .price {
+            color: green;
+            font-weight: bold;
+        }
+        .logout {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .logout:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🍹 Juices Menu</h1>
+
+<div class="juice-container" id="juiceList">
+    Loading juices...
+</div>
+
+<button class="logout" onclick="logout()">Logout</button>
+
+<script>
+    // Fetch juices from backend
+    fetch("http://127.0.0.1:5000/juices")
+        .then(res => res.json())
+        .then(data => {
+            const list = document.getElementById("juiceList");
+            list.innerHTML = "";
+
+            data.forEach(j => {
+                list.innerHTML += `
+                    <div class="juice-card">
+                        <h3>${j.name}</h3>
+                        <p class="price">₹ ${j.price}</p>
+                    </div>
+                `;
+            });
+        })
+        .catch(err => {
+            document.getElementById("juiceList").innerText =
+                "Server not responding ❌";
+            console.error(err);
+        });
+
+    function logout() {
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>

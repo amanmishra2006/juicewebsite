@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+        }
+        .container {
+            width: 300px;
+            margin: 120px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Login</h2>
+
+    <input type="email" id="email" placeholder="Enter email" required>
+    <input type="password" id="password" placeholder="Enter password" required>
+
+    <button onclick="login()">Login</button>
+</div>
+
+<script>
+
+function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("BACKEND RESPONSE 👉", data);
+
+        // ✅ SUCCESS → redirect
+        if (data.message && data.message.toLowerCase().includes("login successful")) {
+            window.location.href = "http://127.0.0.1:5501/juices.html";
+
+        } 
+        // ❌ FAIL
+        else {
+            alert(data.message || "Login failed ❌");
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Server error ❌");
+    });
+}
+</script>
+
+</body>
+</html>
