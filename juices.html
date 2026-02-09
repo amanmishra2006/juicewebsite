@@ -60,7 +60,7 @@
 
 <script>
     // Fetch juices from backend
-    fetch("http://127.0.0.1:5000/juices")
+   fetch("https://juice-backend.onrender.com/juices")
         .then(res => res.json())
         .then(data => {
             const list = document.getElementById("juiceList");
